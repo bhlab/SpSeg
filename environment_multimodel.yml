@@ -1,0 +1,35 @@
+# Use this environment to run train, test and predict with multiple models
+# If your computer does not have a CUDA-supported GPU, change the
+# dependency `tensorflow-gpu` to `tensorflow`
+
+name: SpSeg
+
+dependencies:
+# Megaetector and Image cropping
+- python<=3.7.6, >=3.7.0
+# note that tensorflow < 1.13.0 needs CUDA 9.0, and later versions need CUDA 10;
+# depending on the CUDA stack installed in your environment, you might have to specify
+# a particular version of tensorflow in the range given here:
+- tensorflow-gpu=2.1.0    #>=1.9.0, <1.15.0
+- keras=2.3.1
+- tqdm                    # 4.62.3
+- humanfriendly           # 10.0
+- jsonpickle
+- matplotlib              # 3.5.0
+
+# Data sorting script
+- scikit-image
+- h5py<=2.10.0
+
+# training models
+- scikit-learn
+
+
+# the `nb_conda_kernels` and `ipykernel` packages are installed so that we
+# can use Jupyter Notebooks with this environment as a kernel
+#- nb_conda_kernels
+#- ipykernel
+
+#- Pillow>=5.3.0
+#- numpy
+#- requests
