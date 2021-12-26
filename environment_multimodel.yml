@@ -16,6 +16,7 @@ dependencies:
 - humanfriendly           # 10.0
 - jsonpickle
 - matplotlib              # 3.5.0
+- pandas
 
 # Data sorting script
 - scikit-image

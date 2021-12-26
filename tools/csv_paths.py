@@ -4,6 +4,9 @@ Creates CSV paths to save the images and labels location
 Author: Venkanna Babu Guthula
 Date: 04-07-2021
 Email: g.venkanna37@gmail.com
+
+Edited: Shivam Shrotriya
+Date: 26-12-21
 """
 
 import csv
@@ -28,12 +31,11 @@ def csv_gen(args):
                 print("Image and label names not matched")
     elif args.net_type == "cnn":
         class_dirs = os.listdir(args.image_folder)  # list directories each, # write error and exceptions
-        label = 0
         for i in class_dirs:
+            label = int(i[:2])
             # loop all picture in directory
             for image in glob.glob(args.image_folder + os.path.sep + i + os.path.sep + "*." + args.image_format):
                 rows.append([image, label])
-            label += 1
 
     filename = args.output_csv
     with open(filename, 'w', newline="\n") as csvfile:

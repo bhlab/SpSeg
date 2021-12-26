@@ -18,13 +18,14 @@ def under_sampling(args):
 
     # empty dataframe
     final_data = pd.DataFrame(columns=columns)
+    randomState = 123 #To keep the same sample for each run of the mode
     for cls in classes:
         cls_sample = data[data['class'] == cls]
         cls_size = len(cls_sample)
         print(cls, cls_size)
         sample_size = args.sample_size
         if cls_size > sample_size:
-            final_sample = cls_sample.sample(sample_size)
+            final_sample = cls_sample.sample(sample_size, random_state=randomState)
         else:
             final_sample = cls_sample
         final_data = pd.concat([final_data, final_sample])
