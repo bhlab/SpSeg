@@ -10,7 +10,7 @@ import sys
 from models import resunet_model, unet_model, segnet_model, unet_mini  # FCNs
 import numpy as np
 from keras import applications
-
+import tensorflow as tf
 
 # Load model
 def select_model(args):
@@ -33,25 +33,120 @@ def select_model(args):
         return model
 
     # CNN Models (https://keras.io/api/applications)
-    elif args.model == "vgg16":
-        model = applications.vgg16.VGG16(weights=None, input_shape=args.input_shape, classes=args.num_classes)
-        if args.weights:
-            model.load_weights(args.weights)
-    elif args.model == "resnet50":
-        model = applications.resnet50.ResNet50(weights=None, input_shape=args.input_shape, classes=args.num_classes)
-        if args.weights:
-            model.load_weights(args.weights)
     elif args.model == "xception":
-        model = applications.xception.Xception(weights=None, input_shape=args.input_shape, classes=args.num_classes)
+        model = applications.xception.Xception(weights=None, input_shape=args.input_shape,
+                                               classes=args.num_classes)
         if args.weights:
             model.load_weights(args.weights)
-    elif args.model == "nasnet":
-        model = applications.nasnet.NASNetLarge(weights=None, input_shape=args.input_shape, classes=args.num_classes)
+
+    elif args.model == "vgg16":
+        model = applications.vgg16.VGG16(weights=None, input_shape=args.input_shape,
+                                         classes=args.num_classes)
         if args.weights:
             model.load_weights(args.weights)
+
+    elif args.model == "vgg19":
+        model = applications.vgg19.VGG19(weights=None, input_shape=args.input_shape,
+                                         classes=args.num_classes)
+        if args.weights:
+            model.load_weights(args.weights)
+
+    elif args.model == "resnet50":
+        model = applications.resnet50.ResNet50(weights=None, input_shape=args.input_shape,
+                                               classes=args.num_classes)
+        if args.weights:
+            model.load_weights(args.weights)
+
+    elif args.model == "resnet101":
+        model = applications.ResNet101(weights=None, input_shape=args.input_shape,
+                                       classes=args.num_classes)
+        if args.weights:
+            model.load_weights(args.weights)
+
+    elif args.model == "resnet152":
+        model = applications.ResNet152(weights=None, input_shape=args.input_shape,
+                                       classes=args.num_classes)
+        if args.weights:
+            model.load_weights(args.weights)
+
+    elif args.model == "resnet50v2":
+        model = applications.ResNet50V2(weights=None, input_shape=args.input_shape,
+                                        classes=args.num_classes)
+        if args.weights:
+            model.load_weights(args.weights)
+
+    elif args.model == "resnet101v2":
+        model = applications.ResNet101V2(weights=None, input_shape=args.input_shape,
+                                         classes=args.num_classes)
+        if args.weights:
+            model.load_weights(args.weights)
+
+    elif args.model == "resnet152v2":
+        model = applications.ResNet152V2(weights=None, input_shape=args.input_shape,
+                                         classes=args.num_classes)
+        if args.weights:
+            model.load_weights(args.weights)
+
+    elif args.model == "inceptionv3":
+        model = applications.InceptionV3(weights=None, input_shape=args.input_shape,
+                                         classes=args.num_classes)
+        if args.weights:
+            model.load_weights(args.weights)
+
+    elif args.model == "inceptionresnetv2":
+        model = applications.InceptionResNetV2(weights=None, input_shape=args.input_shape,
+                                               classes=args.num_classes)
+        if args.weights:
+            model.load_weights(args.weights)
+
+    elif args.model == "mobilenet":
+        model = applications.MobileNet(weights=None, input_shape=args.input_shape,
+                                       classes=args.num_classes)
+        if args.weights:
+            model.load_weights(args.weights)
+
+    elif args.model == "mobilenetv2":
+        model = applications.MobileNetV2(weights=None, input_shape=args.input_shape,
+                                         classes=args.num_classes)
+        if args.weights:
+            model.load_weights(args.weights)
+
+    elif args.model == "densenet121":
+        model = applications.DenseNet121(weights=None, input_shape=args.input_shape,
+                                         classes=args.num_classes)
+        if args.weights:
+            model.load_weights(args.weights)
+
+    elif args.model == "densenet169":
+        model = applications.DenseNet169(weights=None, input_shape=args.input_shape,
+                                         classes=args.num_classes)
+        if args.weights:
+            model.load_weights(args.weights)
+
+    elif args.model == "densenet201":
+        model = applications.DenseNet201(weights=None, input_shape=args.input_shape,
+                                         classes=args.num_classes)
+        if args.weights:
+            model.load_weights(args.weights)
+
+    elif args.model == "nasanetmobile":
+        model = applications.NASNetMobile(weights=None, input_shape=args.input_shape,
+                                         classes=args.num_classes)
+        if args.weights:
+            model.load_weights(args.weights)
+
+    elif args.model == "nasanetlarge":
+        model = applications.nasnet.NASNetLarge(weights=None, input_shape=args.input_shape,
+                                                classes=args.num_classes)
+        if args.weights:
+            model.load_weights(args.weights)
+
     else:
         print(args.model + "Model does not exist, select model from"
-                           " unet, unet_mini, resunet, segnet, vgg16, resnet50, xception, nasnet")
+                           " unet, unet_mini, resunet, segnet, xception, vgg16, vgg19, resnet50,"
+                           "resnet101, resnet152, resnet50v2, resnet101v2, resnet152v2, inceptionv3,"
+                           " inceptionresnetv2, mobilenet, mobilenetv2, densenet121, densenet169,"
+                           "densenet201, nasanetmobile,  nasanetlarge")
         sys.exit()
 
     return model
