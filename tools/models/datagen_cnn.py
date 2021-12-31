@@ -80,7 +80,7 @@ class DataGenerator(keras.utils.Sequence):
                 _image = preprocess_input_resnet50(_image)
             elif net == "resnet50v2" or net == "resnet101v2" or net == "resnet152v2":
                 _image = preprocess_input_resnet_v2(_image)
-            elif net == "inceptionv3:
+            elif net == "inceptionv3":
                 _image = preprocess_input_inception_v3(_image)
             elif net == "inceptionresnetv2":
                 _image = pi_inception_resnet_v2(_image)
