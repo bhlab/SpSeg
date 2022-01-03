@@ -10,7 +10,6 @@ import argparse
 
 def cnn_predict(args):
     test_image_paths, test_label = lu.file_paths(args.csv_paths)
-    test_image_paths, test_label = test_image_paths[:2000], test_label[:2000]
     model = load_model(args.weights)
     net = args.model
 
