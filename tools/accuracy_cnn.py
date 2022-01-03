@@ -1,7 +1,6 @@
 import numpy as np
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
-from tensorflow.keras.applications.xception import preprocess_input
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import multilabel_confusion_matrix
 from sklearn.metrics import accuracy_score
@@ -13,6 +12,34 @@ def cnn_predict(args):
     test_image_paths, test_label = lu.file_paths(args.csv_paths)
     test_image_paths, test_label = test_image_paths[:2000], test_label[:2000]
     model = load_model(args.weights)
+    net = args.model
+
+    # Importing preprocess function for required models
+    if net == "xception":
+        from tensorflow.keras.applications.xception import preprocess_input
+    elif net == "vgg16":
+        from tensorflow.keras.applications.vgg16 import preprocess_input
+    elif net == "vgg19":
+        from tensorflow.keras.applications.vgg19 import preprocess_input
+    elif net == "resnet50" or net == "resnet101" or net == "resnet152":
+        from tensorflow.keras.applications.resnet50 import preprocess_input
+    elif net == "resnet50v2" or net == "resnet101v2" or net == "resnet152v2":
+        from tensorflow.keras.applications.resnet_v2 import preprocess_input
+    elif net == "inceptionv3":
+        from tensorflow.keras.applications.inception_v3 import preprocess_input
+    elif net == "inceptionresnetv2":
+        from tensorflow.keras.applications.inception_resnet_v2 import preprocess_input
+    elif net == "mobilenet" or net == "mobilenetv2":
+        from tensorflow.keras.applications.mobilenet import preprocess_input
+    elif net == "densenet121" or net == "densenet169" or net == "densenet201":
+        from tensorflow.keras.applications.densenet import preprocess_input
+    elif net == "nasanetmobile" or net == "nasanetlarge":
+        from tensorflow.keras.applications.nasnet import preprocess_input
+    else:
+        print(net + " model does not exist, select model from xception, vgg16, vgg19, resnet50,"
+              " resnet101, resnet152, resnet50v2, resnet101v2, resnet152v2, inceptionv3,"
+              " inceptionresnetv2, densenet201, nasanetmobile,  nasanetlarge")
+
     predictions = []
     labels = []
     for i, img in enumerate(test_image_paths):

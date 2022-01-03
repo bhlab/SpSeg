@@ -70,6 +70,7 @@ class DataGenerator(keras.utils.Sequence):
             _image = image.load_img(img, target_size=(patch_size, patch_size))
             _image = image.img_to_array(_image)
             _image = np.expand_dims(_image, axis=0)
+
             if net == "xception":
                 _image = preprocess_input_xception(_image)
             elif net == "vgg16":
@@ -90,6 +91,11 @@ class DataGenerator(keras.utils.Sequence):
                 _image = tf.keras.applications.densenet.preprocess_input(_image)
             elif net == "nasanetmobile" or net == "nasanetlarge":
                 _image = tf.keras.applications.nasnet.preprocess_input(_image)
+            else:
+                print(net + " model does not exist, select model from xception, vgg16, vgg19, resnet50,"
+                      " resnet101, resnet152, resnet50v2, resnet101v2, resnet152v2, inceptionv3,"
+                      " inceptionresnetv2, densenet201, nasanetmobile,  nasanetlarge")
+
             X = np.concatenate((X, _image), axis=0)
             _y = int(label)
             _y = to_categorical(_y, n_classes)
