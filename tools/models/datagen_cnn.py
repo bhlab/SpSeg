@@ -27,7 +27,7 @@ from tensorflow.keras.applications.nasnet import preprocess_input as preprocess_
 class DataGenerator(keras.utils.Sequence):
     'Generates data for Keras'
 
-    def __init__(self, image_paths, label_paths, batch_size=4, n_classes=2, patch_size=224, shuffle=True, net="vgg16"):
+    def __init__(self, image_paths, label_paths, batch_size=4, n_classes=36, patch_size=224, shuffle=True, net="vgg16"):
         'Initialization'
         self.batch_size = batch_size
         self.label_paths = label_paths

@@ -9,6 +9,7 @@ CNN architecture (VGG16) not tested with the single class
 """
 
 import argparse
+import time
 from keras.callbacks import ModelCheckpoint
 from keras.callbacks import CSVLogger
 import datetime
@@ -67,4 +68,10 @@ if __name__ == '__main__':
     parser.add_argument("--rs", type=int, help="Radiometric resolution of the image", default=8)
     parser.add_argument("--weights", type=str, help="Name and path of the trained model")
     args = parser.parse_args()
+
+    start = time.time()
     train_cnn(args)
+
+    end = time.time()
+    delta = end - start
+    print("Model took %.2f seconds to train" %delta)
