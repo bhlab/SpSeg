@@ -55,7 +55,7 @@ def cnn_predict(args):
         except:
             print(img, " Not found")
 
-    y = np.array(labels).astype(np.int)
+    y = np.array(labels).astype(int)
     y_pred = np.array(predictions)
 
     print("List of classes: ", np.unique(y))
