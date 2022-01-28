@@ -1,6 +1,22 @@
 # SpSeg
-'Species Segregator' or SpSeg is a Machine-learning tool for species-level segregation of camera-trap images originating from wildlife census and studies. SpSeg is currently trained for Central Indian Landscape specifically. The model is build as second-step to Microsoft's [MegaDetector](https://github.com/microsoft/CameraTraps/blob/master/megadetector.md "MegaDetector"), which identifies animals, person and vehical in these images. SpSeg reads the results of MegaDetector and classifies the animal images into species (or a defined biological taxonomic level).
- 
+'Species Segregator' or SpSeg is a Machine-learning tool for species-level segregation of camera-trap images originating from wildlife census and studies. SpSeg is currently trained for the Central Indian landscape specifically. The model is build as second-step to Microsoft's [MegaDetector](https://github.com/microsoft/CameraTraps/blob/master/megadetector.md "MegaDetector"), which identifies animals, person and vehicle in these images. SpSeg reads the results of MegaDetector and classifies the animal images into species (or a defined biological taxonomic level).
+
+### *Kindly note:*
+The tool is currently under developement and the instruction for installation and use on a new data are not shared yet. One can use the current 'environment_multimodel.yml' to setup an Anaconda environment and find the models from a publicly shared [SpSeg_Models](https://drive.google.com/drive/folders/1u4wLhY8N_ovPzN8nZp4cqUxEVRAGYg6v?usp=sharing "SpSeg_Models") Google Drive folder to run on a new dataset at their own risk. There is no need to setup a separate MegaDetector environment, which is incorporated in the codes here. However, [MegaDetector model v4.1.0](https://lilablobssc.blob.core.windows.net/models/camera_traps/megadetector/md_v4.1.0/md_v4.1.0.pb "MegaDetector model v4.1.0") is required to obtain images with 'Animal' tags and the bounding boxes. 
+
+We further plan to 1) train a couple of EfficientNet models with PyTorch, 2) finalize model based on the top performing models in a multi-model approach, and 3) share the tools to use in camera-trap studies in practical ways.
+
+## Results of initial trained models
+The models in different architectures were trained for 100 ephocs each with the same training and test dataset. So far we have achieved the highest test accuracy for **ResNet152v2** and **InceptionResNetv2** at 89.2%.
+|Architecture|avg top-1 acc|Architecture|avg top-1 acc
+|:-----------|:------------|:-----------|:------------|
+|Xception|88.9%|  |  |
+|VGG16|3.4%|VGG19|3.3%|
+|ResNet50|88.5%|ResNet50v2|87.5%|
+|ResNet101|88.8%|ResNet101v2|89.1%|
+|ResNet152|82.0%|ResNet152v2|89.2%|
+|InceptionResNetv2|89.2%|  |  |
+
 ## Training data
 Training dataset includes 36 species commonly encountered in camera-trap surveys in Eastern Vidarbha Landscape, Maharashtra, India:
 |Species|Scientific name|Image set|Species|Scientific name|Image set|
@@ -25,7 +41,7 @@ Training dataset includes 36 species commonly encountered in camera-trap surveys
 |17_jungle_fowls|Includes _Gallus gallus_, _Gallus sonneratii_ & _Galloperdix spadicea_|4760|35_indian_wolf|_Canis lupus pallipes_|553
 
 ## Training pipeline
-SpSeg repository contains all the required tools to trainand test the model. Run the codes from Tools directory in the repository
+SpSeg repository contains all the required tools to train and test the model. Run the codes from Tools directory in the repository
 
 **Step 1:** Run [MegaDetector](https://github.com/microsoft/CameraTraps/blob/master/megadetector.md "MegaDetector") model on Images to separate animal images. Latest model V4.1 can be downloaded from [here](https://lilablobssc.blob.core.windows.net/models/camera_traps/megadetector/md_v4.1.0/md_v4.1.0.pb "here").
 
