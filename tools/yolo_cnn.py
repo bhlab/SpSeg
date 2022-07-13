@@ -104,6 +104,7 @@ class TFDetector:
 
         self.image_tensor = detection_graph.get_tensor_by_name('image_tensor:0')
         self.box_tensor = detection_graph.get_tensor_by_name('detection_boxes:0')
+        #Not added for additional boxes
         self.score_tensor = detection_graph.get_tensor_by_name('detection_scores:0')
         self.class_tensor = detection_graph.get_tensor_by_name('detection_classes:0')
 
@@ -233,7 +234,7 @@ class TFDetector:
 
 def load_and_run_detector(model_file, image_file_names, output_dir, cnn_model,
                           render_confidence_threshold=TFDetector.DEFAULT_RENDERING_CONFIDENCE_THRESHOLD,
-                          crop_images=False, sort_data=False, grid_dir=False):
+                          crop_images=False, sort_data=False, grid_dir=2):
     """Load and run detector on target images, and visualize the results."""
     if len(image_file_names) == 0:
         print('Warning: no files available')
@@ -318,10 +319,16 @@ def load_and_run_detector(model_file, image_file_names, output_dir, cnn_model,
         # path_l1 = os.path.join(out_dir, "animal")
         # if not os.path.exists(path_l1):
         #     os.mkdir(path_l1)
-        species_list = ["barking _deer", "chital",  "chousingha", "common_palm_civet", "gaur",
-                        "hare", "indian_porcupine", "jungle_cat", "langur", "leopard", "nilgai",
-                        "ratel", "sambar", "sloth_bear", "small_indian_civet", "tiger",
-                        "wild_boar", "wild_dog", "others"]
+        species_list = ["barking _deer",  "birds", "buffalo", "spotted_deer",
+                        "four_horned_antelope", "common_palm_civet", "cow",
+                        "dog", "gaur", "goat", "golden_jackal", "hare",
+                        "hyena", "indian_fox", "indian_pangolin", "indian_porcupine",
+                        "jungle_cat", "jungle_fowls", "langur", "leopard", "macaque",
+                        "nilgai", "palm_squirrel", "indian_peafowl", "ratel",
+                        "rodents", "mongooses", "rusty_spotted_cat", "sambar", "sheep",
+                        "sloth_bear", "small_indian_civet", "tiger", "wild_boar",
+                        "wild_dog", "indian_wolf"]
+
         path_l2 = os.path.join(out_dir, species_list[species_index])
         if not os.path.exists(path_l2):
             os.mkdir(path_l2)
@@ -334,16 +341,18 @@ def load_and_run_detector(model_file, image_file_names, output_dir, cnn_model,
         im_path = os.path.normpath(im_file)
         im_path_list = im_path.split(os.sep)
         file_name = im_path_list[-1]
-        if grid_dir:
-            # grid_folder = os.path.join(output_dir, im_path_list[-3])
-            # if not os.path.exists(grid_folder):
-            #     os.mkdir(grid_folder)
+        if grid_dir == 1:
             out_file_dir = os.path.join(output_dir, im_path_list[-2])
-            if not os.path.exists(out_file_dir):
-                os.mkdir(out_file_dir)
+        elif grid_dir == 2:
+            out_file_dir = os.path.join(output_dir, im_path_list[-3], im_path_list[-2])
+        elif grid_dir == 3:
+            out_file_dir = os.path.join(output_dir, im_path_list[-4], im_path_list[-3], im_path_list[-2])
         else:
             out_file_dir = output_dir
-        # print(out_file_dir, file_name)
+        if not os.path.exists(out_file_dir):
+            os.makedirs(out_file_dir)
+        #print(out_file_dir, file_name)
+
         try:
             start_time = time.time()
 
@@ -510,9 +519,9 @@ def main():
         help='Sort data: Create folder for each class and sort automatically')
     parser.add_argument(
         '--grid_dir',
-        default=False,
-        action="store_true",
-        help='Sort data: Create folder for each class and sort automatically')
+        type= int,
+        default=2,
+        help='Grid directory: Specify the levels of folders from inDir to the image from 1 to 3')
     parser.add_argument(
         '--cnn_model',
         help='Path to .pb TensorFlow detector model file')
