@@ -10,12 +10,10 @@ We further plan to 1) train a couple of EfficientNet models with PyTorch, 2) fin
 The models in different architectures were trained for 100 ephocs each with the same training and test dataset. So far we have achieved the highest test accuracy for **ResNet152v2** and **InceptionResNetv2** at 89.2%.
 |Architecture|avg top-1 acc|Architecture|avg top-1 acc
 |:-----------|:------------|:-----------|:------------|
-|Xception|88.9%|  |  |
-|VGG16|3.4%|VGG19|3.3%|
+|Xception|88.9%|InceptionResNetv2|89.2%|
 |ResNet50|88.5%|ResNet50v2|87.5%|
 |ResNet101|88.8%|ResNet101v2|89.1%|
 |ResNet152|82.0%|ResNet152v2|89.2%|
-|InceptionResNetv2|89.2%|  |  |
 
 ## Training data
 Training dataset includes 36 species commonly encountered in camera-trap surveys in Eastern Vidarbha Landscape, Maharashtra, India:
