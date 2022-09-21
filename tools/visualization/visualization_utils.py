@@ -4,7 +4,7 @@ visualization_utils.py
 Core rendering functions shared across visualization scripts
 """
 
-#%% Constants and imports
+# %% Constants and imports
 
 from io import BytesIO
 from typing import Union
@@ -38,9 +38,9 @@ DEFAULT_DETECTOR_LABEL_MAP = {
 n_retries = 10
 retry_sleep_time = 0.01
 error_names_for_retry = ['ConnectionError']
-                
 
-#%% Functions
+
+# %% Functions
 
 def open_image(input_file: Union[str, BytesIO]) -> Image:
     """
@@ -65,10 +65,10 @@ def open_image(input_file: Union[str, BytesIO]) -> Image:
             print(f'Error retrieving image {input_file}: {e}')
             success = False
             if e.__class__.__name__ in error_names_for_retry:
-                for i_retry in range(0,n_retries):
+                for i_retry in range(0, n_retries):
                     try:
                         time.sleep(retry_sleep_time)
-                        response = requests.get(input_file)        
+                        response = requests.get(input_file)
                     except Exception as e:
                         print(f'Error retrieving image {input_file} on retry {i_retry}: {e}')
                         continue
@@ -155,7 +155,6 @@ def resize_image(image, target_width, target_height=-1):
 
 
 def show_images_in_a_row(images):
-
     num = len(images)
     assert num > 0
 
@@ -220,7 +219,7 @@ def crop_image(detections, image, confidence_threshold=0.8, expansion=0):
         if score >= confidence_threshold:
 
             x1, y1, w_box, h_box = detection['bbox']
-            ymin,xmin,ymax,xmax = y1, x1, y1 + h_box, x1 + w_box
+            ymin, xmin, ymax, xmax = y1, x1, y1 + h_box, x1 + w_box
 
             # Convert to pixels so we can use the PIL crop() function
             im_width, im_height = image.size
@@ -235,11 +234,15 @@ def crop_image(detections, image, confidence_threshold=0.8, expansion=0):
 
             # PIL's crop() does surprising things if you provide values outside of
             # the image, clip inputs
-            left = max(left,0); right = max(right,0)
-            top = max(top,0); bottom = max(bottom,0)
+            left = max(left, 0);
+            right = max(right, 0)
+            top = max(top, 0);
+            bottom = max(bottom, 0)
 
-            left = min(left,im_width-1); right = min(right,im_width-1)
-            top = min(top,im_height-1); bottom = min(bottom,im_height-1)
+            left = min(left, im_width - 1);
+            right = min(right, im_width - 1)
+            top = min(top, im_height - 1);
+            bottom = min(bottom, im_height - 1)
 
             ret_images.append(image.crop((left, top, right, bottom)))
 
@@ -324,6 +327,43 @@ def square_crop_image(detections, img_dir, confidence_threshold=0.8):
 
     # ...for each detection
 
+    return ret_images
+
+
+def square_crop_detection(detection, img_dir, confidence_threshold=0.8):
+    """
+    Tool to square crop a single detection
+    """
+    ret_images = []
+    square_crop = True
+    img = tf_image.load_img(img_dir)
+    img = tf_image.img_to_array(img)
+
+    score = float(detection['conf'])
+
+    if score >= confidence_threshold:
+        bbox_norm = detection['bbox']
+        img_h, img_w, _ = img.shape
+        xmin = int(bbox_norm[0] * img_w)
+        ymin = int(bbox_norm[1] * img_h)
+        box_w = int(bbox_norm[2] * img_w)
+        box_h = int(bbox_norm[3] * img_h)
+
+        if square_crop:
+            box_size = max(box_w, box_h)
+            xmin = max(0, min(
+                xmin - int((box_size - box_w) / 2),
+                img_w - box_w))
+            ymin = max(0, min(
+                ymin - int((box_size - box_h) / 2),
+                img_h - box_h))
+            box_w = min(img_w, box_size)
+            box_h = min(img_h, box_size)
+
+        xmax = xmin + box_w
+        ymax = ymin + box_h
+        crop_test = img[ymin:ymax, xmin:xmax, :]
+        ret_images.append(crop_test)
     return ret_images
 
 
@@ -552,11 +592,15 @@ def draw_bounding_box_on_image(image,
         # A slightly more sophisticated might check whether it was in fact the expansion
         # that made this box larger than the image, but this is the case 99.999% of the time
         # here, so that doesn't seem necessary.
-        left = max(left,0); right = max(right,0)
-        top = max(top,0); bottom = max(bottom,0)
+        left = max(left, 0);
+        right = max(right, 0)
+        top = max(top, 0);
+        bottom = max(bottom, 0)
 
-        left = min(left,im_width-1); right = min(right,im_width-1)
-        top = min(top,im_height-1); bottom = min(bottom,im_height-1)
+        left = min(left, im_width - 1);
+        right = min(right, im_width - 1)
+        top = min(top, im_height - 1);
+        bottom = min(bottom, im_height - 1)
 
     draw.line([(left, top), (left, bottom), (right, bottom),
                (right, top), (left, top)], width=thickness, fill=color)
@@ -711,11 +755,11 @@ def draw_bounding_boxes_on_file(input_file, output_file, detections, confidence_
     Render detection bounding boxes on an image loaded from file, writing the results to a
     new images file.  "detections" is in the API results format.
     """
-    
+
     image = open_image(input_file)
 
     render_detection_bounding_boxes(
-            detections, image, label_map=detector_label_map,
-            confidence_threshold=confidence_threshold)
+        detections, image, label_map=detector_label_map,
+        confidence_threshold=confidence_threshold)
 
     image.save(output_file)
