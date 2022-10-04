@@ -12,9 +12,9 @@
 
 # What is SpSeg?
 'SpSeg' (short for 'Species Segregator) is a Machine-learning tool for species-level segregation of camera-trap images originating from wildlife census and
-studies. SpSeg is currently trained for the Central Indian landscape specifically. 
+studies. SpSeg is currently trained specifically for the Central Indian landscape . 
 
->SpSeg is part of Microsoft's [MegaDetector](https://github.com/microsoft/CameraTraps/blob/master/megadetector.md "MegaDetector") ecosystem and works as second-step to species level segregation of camera-trap images. The approach in MegaDetector pipeline is to first classify the images into **Animal**, **Person**, **Vehicle** and **Blank**, followed by a fine level classification of **Animal** images into useful taxonomic classes.
+>SpSeg is part of Microsoft's [MegaDetector](https://github.com/microsoft/CameraTraps/blob/master/megadetector.md "MegaDetector") ecosystem and works as a second-step to species level segregation of camera-trap images. The approach in MegaDetector pipeline is to first classify the images into **Animal**, **Person**, **Vehicle** and **Blank**, followed by a fine level classification of **Animal** images into useful taxonomic classes.
 
 📝  Check out this detailed overview of the approach in a [Medium article](https://medium.com/microsoftazure/accelerating-biodiversity-surveys-with-azure-machine-learning-9be53f41e674) and an [explainer](http://dmorris.net/misc/cameratraps/ai4e_camera_traps_overview) by [Dan Morris](https://github.com/agentmorris "Dan Morris") on why this two-step process. 
 
