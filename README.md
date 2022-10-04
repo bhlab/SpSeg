@@ -1,14 +1,14 @@
 # On this page
-[What is SpSeg?](https://github.com/bhlab/SpSeg/edit/master/README.md#what-is-spseg)  
-&emsp;  &emsp;  [SpSeg models](https://github.com/bhlab/SpSeg/edit/master/README.md#spseg-models)  
-&emsp;  &emsp;  [Training data](https://github.com/bhlab/SpSeg/edit/master/README.md#training-data)  
-[How to Use SpSeg?](https://github.com/bhlab/SpSeg/edit/master/README.md#how-to-use-spseg)  
-&emsp;  &emsp;  [Setting up the tools](https://github.com/bhlab/SpSeg/edit/master/README.md#setting-up-the-tools)  
-&emsp;  &emsp;  &emsp;  [Camera-Trap image data organization](https://github.com/bhlab/SpSeg/edit/master/README.md#camera-trap-image-data-organization)  
-&emsp;  &emsp;  [Running SpSeg](https://github.com/bhlab/SpSeg/edit/master/README.md#running-spseg)  
-[How to use the output to process the images?](https://github.com/bhlab/SpSeg/edit/master/README.md#how-to-use-the-output-to-process-the-images)  
-[Further development](https://github.com/bhlab/SpSeg/edit/master/README.md#further-development)  
-[Citing SpSeg](https://github.com/bhlab/SpSeg/edit/master/README.md#citation)  and [License information](https://github.com/bhlab/SpSeg/edit/master/README.md#license)
+[What is SpSeg?](https://github.com/bhlab/SpSeg#what-is-spseg)  
+&emsp;  &emsp;  [SpSeg models](https://github.com/bhlab/SpSeg#spseg-models)  
+&emsp;  &emsp;  [Training data](https://github.com/bhlab/SpSeg#training-data)  
+[How to Use SpSeg?](https://github.com/bhlab/SpSeg#how-to-use-spseg)  
+&emsp;  &emsp;  [Setting up the tools](https://github.com/bhlab/SpSeg#setting-up-the-tools)  
+&emsp;  &emsp;  &emsp;  [Camera-Trap image data organization](https://github.com/bhlab/SpSeg#camera-trap-image-data-organization)  
+&emsp;  &emsp;  [Running SpSeg](https://github.com/bhlab/SpSeg#running-spseg)  
+[How to use the output to process the images?](https://github.com/bhlab/SpSeg#how-to-use-the-output-to-process-the-images)  
+[Further development](https://github.com/bhlab/SpSeg#further-development)  
+[Citing SpSeg](https://github.com/bhlab/SpSeg#citation)  and [License information](https://github.com/bhlab/SpSeg#license)
 
 # What is SpSeg?
 'SpSeg' (short for 'Species Segregator) is a Machine-learning tool for species-level segregation of camera-trap images originating from wildlife census and
@@ -86,6 +86,8 @@ cd c:\git
 git clone https://github.com/bhlab/SpSeg
 ```
 The commnads above are suggestions. `git` command will work at any directory and you can download GitHub repo wherever you find it convinient. Alternatively, you can download the SpSeg repo as zip folder and unzip it to a desired location.
+
+⚠️ If your computer does not have a CUDA-supported GPU--> Go to the local SpSeg repo folder and open `environment_SpSeg.yml` file in notepad, change the dependency `tensorflow-gpu` to `tensorflow` and save the file.
 
 Next, you need to enter where SpSeg repo is located using `cd` command:
 ```batch
