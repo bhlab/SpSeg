@@ -22,7 +22,7 @@ studies. SpSeg is currently trained specifically for the Central Indian landscap
 *SpSeg model identifies an Indian fox within the bounding box.*  
 
 ## SpSeg models
-We initially trained different CNN architecture models from [keras](https://keras.io/api/applications/) (see the [results](https://github.com/bhlab/SpSeg#results-of-initial-trained-models) below). We found two models performing well - **`SpSeg_x.hdf5`** and **`SpSeg_r152v2.hdf5`** - and have tested those on various field datasets. **`SpSeg_x.hdf5`** is an Xception model that achieved 88.9% test accuracy, and **`SpSeg_r152v2.hdf5`** is a ResNet152v2 model that achieved 89.2% test accuracy. Find the models from a publicly shared [SpSeg_Models](https://drive.google.com/drive/folders/1u4wLhY8N_ovPzN8nZp4cqUxEVRAGYg6v?usp=sharing "SpSeg_Models") Google Drive folder.
+We initially trained different CNN architecture models from [keras](https://keras.io/api/applications/) (see the [results](https://github.com/bhlab/SpSeg#results-of-initial-trained-models) below). We found two models performing well - **`SpSeg_x.hdf5`** and **`SpSeg_r152v2.hdf5`** - and have tested those on various field datasets. **`SpSeg_x.hdf5`** is an Xception model that achieved 88.9% test accuracy, and **`SpSeg_r152v2.hdf5`** is a ResNet152v2 model that achieved 89.2% test accuracy. Find the models from a publicly shared [SpSeg_Models](https://forms.gle/6Ah5uPbLdSdLuEwS8 "SpSeg_Models") Google Drive folder.
 ### *Results of initial trained models*
 The models in different architectures were trained for 100 ephocs each with the same training and test dataset.
 |Architecture|avg top-1 acc|Architecture|avg top-1 acc
