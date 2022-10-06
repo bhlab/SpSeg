@@ -1,10 +1,13 @@
 """
-Loads yolov3 model, perform object detection and provides output in json framework
+Loads FasterRCNN(MegaDetector v4) or  YOLOv5(MegaDetector v5) model, perform object detection
+ and provides output in json framework
 Editor: Shivam Shrotriya
 Drafted: Venkanna Babu Guthula
 Date: 24-07-2022
+Reference: MegaDetector pipeline
 """
 
+# import libraries
 import argparse
 import glob
 import os
@@ -13,7 +16,6 @@ import sys
 import time
 import copy
 import json
-
 import humanfriendly
 import numpy as np
 from tqdm import tqdm
@@ -402,8 +404,6 @@ def write_results_to_file(detection_results, output_file, relative_path_base=Non
 
 
 # %% Command-line driver
-
-
 def main():
     parser = argparse.ArgumentParser(
         description='Module to run a TF animal detection model on images')
