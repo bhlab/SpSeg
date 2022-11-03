@@ -109,14 +109,20 @@ TL2RT <- function(TimelapseFile, relpath = c("Station","Camera"),
   if (nrow(tl.dat) <= 1) 
     stop("TimelapseFile may only consist of 1 element only", call. = FALSE)
   tl.dat <- tl.dat %>% separate(RelativePath, relpath, remove = FALSE)
+  tags <- c("Person", "Animal", "Empty", "Vehicle")
+  for (i in 1:4){
+    if (!is.logical (tl.dat[,tags[i]])){
+      tl.dat[,tags[i]] <- tl.dat[,tags[i]] == "true" | tl.dat[,tags[i]] == "TRUE"
+    }
+  }
   wcount <- 0
   for (i in 1:nrow(tl.dat)){
-    if(nchar(tl.dat$Species[i]) == 0 && tl.dat$Animal[i] == "true"){
+    if(nchar(tl.dat$Species[i]) == 0 && tl.dat$Animal[i] == TRUE){
       warning(paste(tl.dat$File[i],"in",tl.dat$RelativePath[i],"is missing species identification."), 
               call. = FALSE)
       wcount <- wcount+1
     }
-    if(tl.dat$Person[i] == "false" && tl.dat$Animal[i] == "false" && tl.dat$Empty[i] == "false" && tl.dat$Vehicle[i] == "false"){
+    if(tl.dat$Person[i] == FALSE && tl.dat$Animal[i] == FALSE && tl.dat$Empty[i] == FALSE && tl.dat$Vehicle[i] == FALSE){
       warning(paste(tl.dat$File[i],"in",tl.dat$RelativePath[i],"has all the tags set to false."), 
               call. = FALSE)
       wcount <- wcount+1
@@ -128,8 +134,8 @@ TL2RT <- function(TimelapseFile, relpath = c("Station","Camera"),
   Species <- NULL
   for (i in 1:nrow(tl.dat)){
     Species[i] <- ifelse (nchar(tl.dat$Species[i]) >0, tl.dat$Species[i],
-                    ifelse(tl.dat$Vehicle[i] == "true", "vehicle",
-                           ifelse(tl.dat$Person[i] == "true", "person", "blank")))
+                    ifelse(tl.dat$Vehicle[i] == TRUE, "vehicle",
+                           ifelse(tl.dat$Person[i] == TRUE, "person", "blank")))
   }
   tl.dat$Species <- Species
   tl.dat$DateTimeOriginal <- as.POSIXct(strptime(x = tl.dat$DateTime, 
@@ -182,7 +188,7 @@ TL2RT <- function(TimelapseFile, relpath = c("Station","Camera"),
   record.table2 <- data.frame(record.table2, stringsAsFactors = FALSE, check.names = TRUE)
   c.tl <- count(tl.dat, Station)
   c.rt <- count(record.table2, Station)
-  dups <- c.tl.dat$n - c.rt$n
+  dups <- c.tl$n - c.rt$n
   for (i in 1:length(dups)){
     message(paste("Station",c.tl$Station[i], ": removed", dups[i], "duplicated images."))
   }
