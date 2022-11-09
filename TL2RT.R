@@ -83,15 +83,20 @@ TL2RT <- function(TimelapseFile, relpath = c("Station","Camera"),
     stop("writecsv must be logical (TRUE or FALSE)", call. = FALSE)
   
   ### Internal functions
-  dt.logic <- function(x){
-    y <- TRUE
+  n.img <- function(x){
+    n <- 1
     if (length(x)>1){
       for (i in 1:(length(x)-1)){
-        dt <- difftime(x[i+1], x[max(which (y==TRUE))],tz = timeZone, units = "mins")
-        y <- c(y, (minDeltaTime < as.numeric(dt)))
+        dt <- difftime(x[i+1], x[max(which (n > 0))],tz = timeZone, units = "mins")
+        if (minDeltaTime < as.numeric(dt)) {
+          n <- c(n,1)
+        } else {
+          n <- c(n,0)
+          n[max(which (n > 0))] <- n[max(which (n > 0))]+1
+        }
       }
     }
-    return(y)
+    return(n)
   }
   delta.time <- function(x,units){
     y <- 0
@@ -146,27 +151,28 @@ TL2RT <- function(TimelapseFile, relpath = c("Station","Camera"),
     if (deltaTimeComparedTo == "lastIndependentRecord") {
       if (camerasIndependent) {
         record.table <- tl.dat %>% group_by(Station, Species, Camera) %>% 
-          arrange(Station, Camera, Species, DateTimeOriginal) %>% filter (
-            dt.logic(DateTimeOriginal))
+          arrange(Station, Camera, Species, DateTimeOriginal) %>% mutate(
+            n_images = n.img(DateTimeOriginal)) %>% filter(n_images > 0)
       } else {
         record.table <- tl.dat %>% group_by(Station, Species) %>% 
-          arrange(Station, Species, DateTimeOriginal) %>% filter (
-            dt.logic(DateTimeOriginal))
+          arrange(Station, Species, DateTimeOriginal) %>% mutate(
+            n_images = n.img(DateTimeOriginal)) %>% filter(n_images > 0)
       }
     } else {
       if (camerasIndependent) {
         record.table <- tl.dat %>% group_by(Station, Camera) %>% 
-          arrange(Station, Camera, Species, DateTimeOriginal) %>% filter (
-            dt.logic(DateTimeOriginal))
+          arrange(Station, Camera, Species, DateTimeOriginal) %>% mutate(
+            n_images = n.img(DateTimeOriginal)) %>% filter(n_images > 0)
       } else {
         record.table <- tl.dat %>% group_by(Station) %>% 
-          arrange(Station, Species, DateTimeOriginal) %>% filter (
-            dt.logic(DateTimeOriginal))
+          arrange(Station, Species, DateTimeOriginal) %>% mutate(
+            n_images = n.img(DateTimeOriginal)) %>% filter(n_images > 0)
       }
     }
   } else {
     record.table <- tl.dat %>% group_by(Station) %>% 
-      arrange(Station, Species, DateTimeOriginal)
+      arrange(Station, Species, DateTimeOriginal) %>% mutate(
+        n_images = n.img(DateTimeOriginal))
   }
   record.table <- record.table %>% mutate(
     Date = as.Date(DateTimeOriginal, format = "%Y/%M/%d", tz = timeZone),
@@ -179,11 +185,11 @@ TL2RT <- function(TimelapseFile, relpath = c("Station","Camera"),
   if ("Camera" %in% relpath){
     record.table2 <- record.table %>% select(Station, Camera, Species, DateTimeOriginal, Date, Time, 
                                              delta.time.secs, delta.time.mins, delta.time.hours, 
-                                             delta.time.days, Folder, RelativePath, File)
+                                             delta.time.days, Folder, RelativePath, File, n_images)
   } else {
     record.table2 <- record.table %>% select(Station, Species, DateTimeOriginal, Date, Time, 
                                              delta.time.secs, delta.time.mins, delta.time.hours, 
-                                             delta.time.days, Folder, RelativePath, File)
+                                             delta.time.days, Folder, RelativePath, File, n_images)
   }
   record.table2 <- data.frame(record.table2, stringsAsFactors = FALSE, check.names = TRUE)
   c.tl <- count(tl.dat, Station)
@@ -198,7 +204,7 @@ TL2RT <- function(TimelapseFile, relpath = c("Station","Camera"),
     if (hasArg(outDir))
       setwd(outDir)
     message("saving csv to  ", file.path(getwd(), outtable_filename))
-    write.csv(record.table2, file = outtable_filename)
+    write.csv(record.table2, file = outtable_filename, row.names = FALSE)
   }
   return(record.table2)
 }
