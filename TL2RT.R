@@ -14,8 +14,10 @@ require(tidyr)
 
 # Correct path to Timelapse.csv is required. Rest options can be changed as per requirement
 #'relpath' requires the names of the folders (in same sequence) in RelativePath in timelapse output 
+# 'sep' is to define the separator in relative path. "\\\\" is equivalent to windows single backslash '\'
 # 'SpCols requires the number of columns for duplicate species. These column names must start with 'Species'
-rt.output <- TL2RT("TimelapseData.csv", relpath = c("Station","Camera"), SpCols = 1,
+rt.output <- TL2RT("TimelapseData.csv", relpath = c("Station","Camera"), 
+                   sep = "\\\\", SpCols = 1,
                    camerasIndependent = TRUE, minDeltaTime = 1, 
                    deltaTimeComparedTo = "lastIndependentRecord", 
                    timeZone = Sys.timezone(),
@@ -23,7 +25,7 @@ rt.output <- TL2RT("TimelapseData.csv", relpath = c("Station","Camera"), SpCols 
 
 ################ TL2RT Function###################
 TL2RT <- function(TimelapseFile, relpath = c("Station","Camera"), 
-                  SpCols =1, camerasIndependent, minDeltaTime = 0, 
+                  sep = "\\\\", SpCols =1, camerasIndependent, minDeltaTime = 0, 
                   deltaTimeComparedTo, timeZone, 
                   writecsv = FALSE, outDir){
   wd0 <- getwd()
@@ -112,18 +114,19 @@ TL2RT <- function(TimelapseFile, relpath = c("Station","Camera"),
   
   ### Data preparation
   tl.dat <- read.csv(TimelapseFile)
-  if (SpCols > 1){
-    tl.dat <- tl.dat %>% pivot_longer(cols = starts_with("Species"),
-                            values_to = "Species") %>% filter(nchar(Species) > 0) %>% select(!name)
-  }
   if (nrow(tl.dat) <= 1) 
     stop("TimelapseFile may only consist of 1 element only", call. = FALSE)
-  tl.dat <- tl.dat %>% separate(RelativePath, relpath, remove = FALSE)
+  tl.dat <- tl.dat %>% separate(RelativePath, relpath, sep = sep, remove = FALSE)
   tags <- c("Person", "Animal", "Empty", "Vehicle")
   for (i in 1:4){
     if (!is.logical (tl.dat[,tags[i]])){
       tl.dat[,tags[i]] <- tl.dat[,tags[i]] == "true" | tl.dat[,tags[i]] == "TRUE"
     }
+  }
+  if (SpCols > 1){
+    tl.dat <- tl.dat %>% pivot_longer(cols = starts_with("Species"), 
+                                       values_to = "Species") %>% select(!name) %>% distinct(
+                                       ) %>% filter(Animal == TRUE & nchar(Species) > 0 | Animal != TRUE)
   }
   wcount <- 0
   for (i in 1:nrow(tl.dat)){
