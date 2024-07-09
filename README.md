@@ -72,7 +72,7 @@ These instructions are quite similar to the [instruction for MegaDetector instal
 Download and install [Anaconda](https://www.anaconda.com/products/individual) (or [Miniconda](https://docs.conda.io/en/latest/miniconda.html)). Installing [Git](https://git-scm.com/downloads) is optional, but recommended to keep your repo updated. The latest [NVIDIA drivers](https://www.nvidia.com/download/index.aspx) need to be checked if you are using a GPU.
 
 #### Step 2. Access the detector and classifier models
-Download [MegaDetector model v4.1.0](https://lilablobssc.blob.core.windows.net/models/camera_traps/megadetector/md_v4.1.0/md_v4.1.0.pb) and [SpSeg models](https://drive.google.com/drive/folders/1u4wLhY8N_ovPzN8nZp4cqUxEVRAGYg6v?usp=sharing) and keep at an accessible location. These instructions assume that the models are downloaded to a folder called `c:\spseg_models`.
+Download [MegaDetector model v4.1.0](https://lilawildlife.blob.core.windows.net/lila-wildlife/models/camera_traps/megadetector/md_v4.1.0/md_v4.1.0.pb) and [SpSeg models](https://drive.google.com/drive/folders/1u4wLhY8N_ovPzN8nZp4cqUxEVRAGYg6v?usp=sharing) and keep at an accessible location. These instructions assume that the models are downloaded to a folder called `c:\spseg_models`.
 
 #### Step 3. Clone git repo and set Python environment
 There is no need to setup a separate MegaDetector environment, which is incorporated in the codes here. We are giving the instructions for Windows machines only, which is expected to work on Linux machines in a similar way. The environment is not tested on Mac.
