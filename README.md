@@ -27,10 +27,10 @@ We initially trained different CNN architecture models from [keras](https://kera
 The models in different architectures were trained for 100 ephocs each with the same training and test dataset.
 |Architecture|avg top-1 acc|Architecture|avg top-1 acc
 |:-----------|:------------|:-----------|:------------|
-|Xception|88.9%|InceptionResNetv2|89.2%|
-|ResNet50|88.5%|ResNet50v2|87.5%|
-|ResNet101|88.8%|ResNet101v2|89.1%|
-|ResNet152|82.0%|ResNet152v2|89.2%|
+|ResNet152v2|89.2%|ResNet101|88.8%|
+|InceptionResNetv2|89.2%| ResNet50|88.5%|
+|ResNet101v2|89.1%|ResNet50v2|87.5%|
+|Xception|88.9%| ResNet152|82.0%|
 
 ## Training data
 SpSeg models can currently segregate 36 commonly encountered species (or taxonomic class) in camera-trap surveys in the Eastern Vidarbha Landscape, Maharashtra, India. A maximum of 5000 images were randomly selected for each species from our [image dataset](#table1) to train the models. The models were trained with 70% of the selected data, while 15% images were used for validation and remaining 15% were used for testing. Therefore, species with more than 5000 images in our image dataset (table below) have better accuracy, except sexually dimorphic species like Nilgai.
